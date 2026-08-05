@@ -1,5 +1,7 @@
+#include "engine/Key.hpp"
 #include <GLFW/glfw3.h>
 #include <engine/Application.hpp>
+#include <engine/Input.hpp>
 #include <engine/Time.hpp>
 #include <engine/Window.hpp>
 #include <iostream>
@@ -10,6 +12,7 @@ Application::Application() {
   glfwInit();
 
   m_window = std::make_unique<Window>(1280, 720, "Rally");
+  Input::init(m_window->native());
 }
 
 Application::Application(const char *title) {
@@ -28,6 +31,7 @@ Application::Application(unsigned int width, unsigned int height,
 Application::~Application() { glfwTerminate(); }
 
 void Application::run() {
+  bool debugMode = false;
   while (m_running) {
     Time::update();
 
@@ -40,7 +44,20 @@ void Application::run() {
     // INFO: UPDATE
 
     float dt = Time::deltaTime();
-    std::cout << "FPS: " << Time::fps() << std::endl;
+
+    if (Input::isKeyPressed(Key::Up)) {
+      debugMode = !debugMode;
+    }
+    if (debugMode) {
+      std::cout << "FPS: " << Time::fps() << std::endl;
+    }
+    if (Input::isKeyPressed(Key::W)) {
+      std::cout << "W" << std::endl;
+    }
+
+    if (Input::isKeyPressed(Key::Escape)) {
+      m_running = false;
+    }
 
     // INFO: RENDER
 
