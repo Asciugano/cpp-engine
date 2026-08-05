@@ -1,9 +1,13 @@
 #include "engine/Key.hpp"
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <engine/Application.hpp>
 #include <engine/Input.hpp>
+#include <engine/Rendered.hpp>
 #include <engine/Time.hpp>
 #include <engine/Window.hpp>
+#include <glbinding/gl/gl.h>
+#include <glbinding/glbinding.h>
 #include <iostream>
 #include <memory>
 
@@ -12,6 +16,9 @@ Application::Application() {
   glfwInit();
 
   m_window = std::make_unique<Window>(1280, 720, "Rally");
+  glbinding::initialize(glfwGetProcAddress);
+
+  Renderer::init();
   Input::init(m_window->native());
 }
 
@@ -40,6 +47,7 @@ void Application::run() {
     }
 
     m_window->pollEvents();
+    Renderer::clear();
 
     // INFO: UPDATE
 

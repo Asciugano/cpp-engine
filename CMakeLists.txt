@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.24)
 
 project(
     Rally
@@ -13,5 +13,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+include(cmake/CPM.cmake)
+include(cmake/Dependencies.cmake)
+
 add_subdirectory(engine)
 add_subdirectory(game)
+# add_subdirectory(sandbox)
