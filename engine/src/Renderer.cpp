@@ -1,12 +1,24 @@
 #include <engine/Rendered.hpp>
 #include <glbinding/gl/gl.h>
-#include <glbinding/glbinding.h>
+
+using namespace gl;
 
 namespace Engine {
-void Renderer::init() { glEnable(gl::GL_DEPTH_TEST); }
+void Renderer::init() {
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_CULL_FACE);
 
-void Renderer::clear() {
-  gl::glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-  gl::glClear(gl::GL_COLOR_BUFFER_BIT | gl::GL_DEPTH_BUFFER_BIT);
+  glCullFace(GL_BACK);
+  glFrontFace(GL_CCW);
 }
+
+void Renderer::beginFrame() { clear(); }
+
+void Renderer::endFrame() {}
+
+void Renderer::setClearColor(float r, float g, float b, float a) {
+  glClearColor(r, g, b, a);
+}
+
+void Renderer::clear() { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); }
 } // namespace Engine

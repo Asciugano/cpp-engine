@@ -1,10 +1,10 @@
 #pragma once
 
-#include "engine/Window.hpp"
 #include <memory>
 
 namespace Engine {
 class Window;
+class GraphicsContext;
 
 class Application {
 public:
@@ -17,6 +17,7 @@ public:
 
 private:
   std::unique_ptr<Window> m_window;
+  std::unique_ptr<GraphicsContext> m_context;
   bool m_running{true};
 };
 } // namespace Engine

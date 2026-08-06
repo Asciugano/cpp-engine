@@ -1,4 +1,5 @@
-#include "engine/Key.hpp"
+#include <engine/Key.hpp>
+#include <engine/graphics/GraphicsContext.hpp>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <engine/Application.hpp>
@@ -16,9 +17,12 @@ Application::Application() {
   glfwInit();
 
   m_window = std::make_unique<Window>(1280, 720, "Rally");
-  glbinding::initialize(glfwGetProcAddress);
+  m_context = std::make_unique<GraphicsContext>(m_window->native());
+
+  m_context->init();
 
   Renderer::init();
+  Renderer::setClearColor(0.15f, 0.18f, 0.22f, 1);
   Input::init(m_window->native());
 }
 
@@ -47,7 +51,7 @@ void Application::run() {
     }
 
     m_window->pollEvents();
-    Renderer::clear();
+    Renderer::beginFrame();
 
     // INFO: UPDATE
 
@@ -69,7 +73,8 @@ void Application::run() {
 
     // INFO: RENDER
 
-    m_window->swapBuffers();
+    Renderer::endFrame();
+    m_context->swapBuffers();
   }
 }
 } // namespace Engine
