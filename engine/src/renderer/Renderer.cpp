@@ -10,8 +10,8 @@ namespace Engine {
 std::unique_ptr<RendererAPI> Renderer::s_rendererAPI = nullptr;
 
 void Renderer::init() {
-  s_rendererAPI = std::make_unique<OpenGLRendererAPI>();
-
+  s_rendererAPI->setGraphicAPIs(GraphicsAPI::OpenGL);
+  s_rendererAPI = RendererAPI::create();
   s_rendererAPI->init();
 }
 
