@@ -4,9 +4,9 @@
 #include <GLFW/glfw3.h>
 #include <engine/Application.hpp>
 #include <engine/Input.hpp>
-#include <engine/Rendered.hpp>
 #include <engine/Time.hpp>
 #include <engine/Window.hpp>
+#include <engine/renderer/Rendered.hpp>
 #include <glbinding/gl/gl.h>
 #include <glbinding/glbinding.h>
 #include <iostream>
@@ -23,6 +23,7 @@ Application::Application() {
 
   Renderer::init();
   Renderer::setClearColor(0.15f, 0.18f, 0.22f, 1);
+
   Input::init(m_window->native());
 }
 
