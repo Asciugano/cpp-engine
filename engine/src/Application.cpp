@@ -1,7 +1,7 @@
-#include "engine/EngineConfig.hpp"
-#include "engine/events/ApplicationEvent.hpp"
-#include "engine/events/Event.hpp"
-#include "engine/events/EventDispacher.hpp"
+#include <engine/EngineConfig.hpp>
+#include <engine/events/ApplicationEvent.hpp>
+#include <engine/events/Event.hpp>
+#include <engine/events/EventDispacher.hpp>
 #include <engine/graphics/GraphicsContext.hpp>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -44,12 +44,13 @@ void Application::run() {
       m_running = false;
     }
 
-    m_window->pollEvents();
-    Renderer::beginFrame();
+    float dt = Time::deltaTime();
+
+    for (auto &layer : m_layerStack) {
+      layer->onUpdate(dt);
+    }
 
     // INFO: UPDATE
-
-    float dt = Time::deltaTime();
 
     if (Input::isKeyPressed(Key::Up)) {
       debugMode = !debugMode;
@@ -64,6 +65,9 @@ void Application::run() {
     if (Input::isKeyPressed(Key::Escape)) {
       m_running = false;
     }
+
+    m_window->pollEvents();
+    Renderer::beginFrame();
 
     // INFO: RENDER
 
@@ -82,5 +86,9 @@ void Application::onEvent(Event &event) {
 
     return true;
   });
+}
+
+void Application::pushLayer(std::shared_ptr<Layer> layer) {
+  m_layerStack.pushLayer(layer);
 }
 } // namespace Engine
