@@ -1,3 +1,4 @@
+#include "engine/EngineConfig.hpp"
 #include <engine/platform/OpenGL/OpenGLRendererAPI.hpp>
 #include <engine/renderer/Rendered.hpp>
 #include <engine/renderer/RendererAPI.hpp>
@@ -9,8 +10,8 @@ using namespace gl;
 namespace Engine {
 std::unique_ptr<RendererAPI> Renderer::s_rendererAPI = nullptr;
 
-void Renderer::init() {
-  s_rendererAPI->setGraphicAPIs(GraphicsAPI::OpenGL);
+void Renderer::init(const RendererConfig &config) {
+  s_rendererAPI->setGraphicAPIs(config.api);
   s_rendererAPI = RendererAPI::create();
   s_rendererAPI->init();
 }

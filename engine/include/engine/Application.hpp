@@ -1,5 +1,6 @@
 #pragma once
 
+#include "engine/EngineConfig.hpp"
 #include <memory>
 
 namespace Engine {
@@ -8,9 +9,7 @@ class GraphicsContext;
 
 class Application {
 public:
-  Application();
-  Application(const char *title);
-  Application(unsigned int width, unsigned int height, const char *title);
+  explicit Application(const EngineConfig &config);
   ~Application();
 
   void run();
@@ -19,5 +18,6 @@ private:
   std::unique_ptr<Window> m_window;
   std::unique_ptr<GraphicsContext> m_context;
   bool m_running{true};
+  EngineConfig m_config;
 };
 } // namespace Engine

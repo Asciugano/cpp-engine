@@ -1,9 +1,32 @@
+#include "engine/EngineConfig.hpp"
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <engine/Window.hpp>
 #include <stdexcept>
 
 namespace Engine {
+Window::Window(const WindowConfig &config) {
+  if (!glfwInit())
+    throw std::runtime_error("Failed to init GLFW");
+
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+#ifdef __APPLE__
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+#endif
+
+  m_window = glfwCreateWindow(config.width, config.height, config.title,
+                              nullptr, nullptr);
+
+  if (!m_window) {
+    glfwTerminate();
+    throw std::runtime_error("Failed to create window");
+  }
+
+  glfwMakeContextCurrent(m_window);
+}
 Window::Window(unsigned int width, unsigned int height, const char *title) {
   if (!glfwInit())
     throw std::runtime_error("Failed to init GLFW");

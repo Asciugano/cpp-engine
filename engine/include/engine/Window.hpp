@@ -1,11 +1,13 @@
 #pragma once
 
+#include "engine/EngineConfig.hpp"
 struct GLFWwindow;
 
 namespace Engine {
 class Window {
 public:
   Window(unsigned int width, unsigned int height, const char *title);
+  Window(const WindowConfig &config);
   ~Window();
 
   Window(const Window &) = delete;

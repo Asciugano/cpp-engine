@@ -1,3 +1,4 @@
+#include "engine/EngineConfig.hpp"
 #include <engine/Key.hpp>
 #include <engine/graphics/GraphicsContext.hpp>
 #define GLFW_INCLUDE_NONE
@@ -13,31 +14,18 @@
 #include <memory>
 
 namespace Engine {
-Application::Application() {
+Application::Application(const EngineConfig &config) : m_config(config) {
   glfwInit();
 
-  m_window = std::make_unique<Window>(1280, 720, "Rally");
+  m_window = std::make_unique<Window>(config.window);
   m_context = std::make_unique<GraphicsContext>(m_window->native());
 
   m_context->init();
 
-  Renderer::init();
+  Renderer::init(config.renderer);
   Renderer::setClearColor(0.15f, 0.18f, 0.22f, 1);
 
   Input::init(m_window->native());
-}
-
-Application::Application(const char *title) {
-  glfwInit();
-
-  m_window = std::make_unique<Window>(1280, 720, title);
-}
-
-Application::Application(unsigned int width, unsigned int height,
-                         const char *title) {
-  glfwInit();
-
-  m_window = std::make_unique<Window>(width, height, title);
 }
 
 Application::~Application() { glfwTerminate(); }
