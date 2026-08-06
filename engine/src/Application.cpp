@@ -2,14 +2,14 @@
 #include "engine/events/ApplicationEvent.hpp"
 #include "engine/events/Event.hpp"
 #include "engine/events/EventDispacher.hpp"
-#include <engine/Key.hpp>
 #include <engine/graphics/GraphicsContext.hpp>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <engine/Application.hpp>
-#include <engine/Input.hpp>
 #include <engine/Time.hpp>
 #include <engine/Window.hpp>
+#include <engine/inputs/Input.hpp>
+#include <engine/inputs/KeyCodes.hpp>
 #include <engine/renderer/Rendered.hpp>
 #include <glbinding/gl/gl.h>
 #include <glbinding/glbinding.h>
@@ -30,7 +30,7 @@ Application::Application(const EngineConfig &config) : m_config(config) {
   Renderer::init(config.renderer);
   Renderer::setClearColor(0.15f, 0.18f, 0.22f, 1);
 
-  Input::init(m_window->native());
+  Input::setWindow(m_window->native());
 }
 
 Application::~Application() { glfwTerminate(); }
@@ -73,6 +73,9 @@ void Application::run() {
 }
 
 void Application::onEvent(Event &event) {
+  // DEBUG:
+  // std::cout << event.name() << std::endl;
+
   EventDispacher dispacher(event);
   dispacher.dispatch<WindowCloseEvent>([this](WindowCloseEvent &) {
     m_running = false;

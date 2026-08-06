@@ -1,6 +1,6 @@
 #pragma once
 
-#include <engine/Key.hpp>
+#include <engine/inputs/KeyCodes.hpp>
 
 struct GLFWwindow;
 
@@ -8,8 +8,9 @@ namespace Engine {
 
 class Input {
 public:
-  static void init(GLFWwindow *window);
   static bool isKeyPressed(Key key);
+
+  static void setWindow(GLFWwindow *window);
 
 private:
   static GLFWwindow *s_window;
