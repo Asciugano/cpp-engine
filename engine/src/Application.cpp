@@ -1,4 +1,7 @@
 #include "engine/EngineConfig.hpp"
+#include "engine/events/ApplicationEvent.hpp"
+#include "engine/events/Event.hpp"
+#include "engine/events/EventDispacher.hpp"
 #include <engine/Key.hpp>
 #include <engine/graphics/GraphicsContext.hpp>
 #define GLFW_INCLUDE_NONE
@@ -18,6 +21,8 @@ Application::Application(const EngineConfig &config) : m_config(config) {
   glfwInit();
 
   m_window = std::make_unique<Window>(config.window);
+  m_window->setEventCallback([this](Event &event) { onEvent(event); });
+
   m_context = std::make_unique<GraphicsContext>(m_window->native());
 
   m_context->init();
@@ -65,5 +70,14 @@ void Application::run() {
     Renderer::endFrame();
     m_context->swapBuffers();
   }
+}
+
+void Application::onEvent(Event &event) {
+  EventDispacher dispacher(event);
+  dispacher.dispatch<WindowCloseEvent>([this](WindowCloseEvent &) {
+    m_running = false;
+
+    return true;
+  });
 }
 } // namespace Engine

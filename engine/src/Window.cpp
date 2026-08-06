@@ -1,11 +1,17 @@
 #include "engine/EngineConfig.hpp"
+#include "engine/events/ApplicationEvent.hpp"
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <engine/Window.hpp>
 #include <stdexcept>
 
 namespace Engine {
-Window::Window(const WindowConfig &config) {
+Window::Window(const WindowConfig &config)
+    : m_width(config.width), m_height(config.height), m_title(config.title) {
+  init();
+}
+
+void Window::init() {
   if (!glfwInit())
     throw std::runtime_error("Failed to init GLFW");
 
@@ -17,8 +23,7 @@ Window::Window(const WindowConfig &config) {
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 #endif
 
-  m_window = glfwCreateWindow(config.width, config.height, config.title,
-                              nullptr, nullptr);
+  m_window = glfwCreateWindow(m_width, m_height, m_title, nullptr, nullptr);
 
   if (!m_window) {
     glfwTerminate();
@@ -26,7 +31,36 @@ Window::Window(const WindowConfig &config) {
   }
 
   glfwMakeContextCurrent(m_window);
+  glfwSetWindowUserPointer(m_window, this);
+
+  glfwSetFramebufferSizeCallback(
+      m_window, [](GLFWwindow *window, int width, int height) {
+        Window *win = static_cast<Window *>(glfwGetWindowUserPointer(window));
+
+        win->m_width = width;
+        win->m_height = height;
+
+        WindowResizeEvent event(width, height);
+
+        if (win->m_eventCallback)
+          win->m_eventCallback(event);
+      });
+
+  glfwSetWindowCloseCallback(m_window, [](GLFWwindow *window) {
+    Window *win = static_cast<Window *>(glfwGetWindowUserPointer(window));
+
+    // TODO: creare l'evento
+    WindowCloseEvent event;
+
+    if (win->m_eventCallback)
+      win->m_eventCallback(event);
+  });
 }
+
+void Window::setEventCallback(const EventCallbackFn &callback) {
+  m_eventCallback = callback;
+}
+
 Window::Window(unsigned int width, unsigned int height, const char *title) {
   if (!glfwInit())
     throw std::runtime_error("Failed to init GLFW");

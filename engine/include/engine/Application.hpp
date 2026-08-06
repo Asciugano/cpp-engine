@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/EngineConfig.hpp"
+#include "engine/events/Event.hpp"
 #include <memory>
 
 namespace Engine {
@@ -13,6 +14,8 @@ public:
   ~Application();
 
   void run();
+
+  void onEvent(Event &event);
 
 private:
   std::unique_ptr<Window> m_window;
