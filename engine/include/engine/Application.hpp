@@ -20,6 +20,7 @@ public:
   void onEvent(Event &event);
 
   void pushLayer(std::shared_ptr<Layer> layer);
+  void pushOverlay(std::shared_ptr<Layer> overlay);
 
   Window &window() { return *m_window; }
 

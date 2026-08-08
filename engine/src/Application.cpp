@@ -86,9 +86,25 @@ void Application::onEvent(Event &event) {
 
     return true;
   });
+
+  if (event.handled)
+    return;
+
+  for (auto it = m_layerStack.end(); it != m_layerStack.begin();) {
+    auto &layer = *--it;
+
+    layer->onEvent(event);
+
+    if (event.handled)
+      break;
+  }
 }
 
 void Application::pushLayer(std::shared_ptr<Layer> layer) {
   m_layerStack.pushLayer(layer);
+}
+
+void Application::pushOverlay(std::shared_ptr<Layer> overlay) {
+  m_layerStack.pushOverlay(overlay);
 }
 } // namespace Engine

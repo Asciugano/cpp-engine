@@ -2,25 +2,36 @@
 
 #include <engine/layer/Layer.hpp>
 #include <memory>
-#include <stdexcept>
 #include <vector>
 
 namespace Engine {
 class LayerStack {
 public:
-  void pushLayer(std::shared_ptr<Layer> layer) {
-    if (!layer)
-      throw std::runtime_error("Trying to push a null Layer.");
+  using LayerPtr = std::shared_ptr<Layer>;
+  using Container = std::vector<LayerPtr>;
 
-    m_layers.push_back(layer);
-    layer->onAttach();
-  }
+public:
+  LayerStack() = default;
+  ~LayerStack();
 
-  auto begin() { return m_layers.begin(); }
+  void pushLayer(LayerPtr layer);
+  void pushOverlay(LayerPtr overlay);
 
-  auto end() { return m_layers.end(); }
+  void popLayer(LayerPtr layer);
+  void popOverlay(LayerPtr overlay);
+
+  Container::iterator begin() { return m_layers.begin(); }
+
+  Container::iterator end() { return m_layers.end(); }
+
+  Container::const_iterator begin() const { return m_layers.begin(); }
+
+  Container::const_iterator end() const { return m_layers.end(); }
+
+  std::size_t size() const { return m_layers.size(); }
 
 private:
-  std::vector<std::shared_ptr<Layer>> m_layers{};
+  Container m_layers{};
+  std::size_t m_layerInsertIndex = 0;
 };
 } // namespace Engine
