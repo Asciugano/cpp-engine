@@ -15,6 +15,8 @@ public:
 
   static void setClearColor(float r, float g, float b, float a);
 
+  static void drawTriangle();
+
 private:
   static std::unique_ptr<RendererAPI> s_rendererAPI;
 };

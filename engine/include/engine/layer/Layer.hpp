@@ -1,7 +1,9 @@
 #pragma once
 
-#include "engine/events/Event.hpp"
+#include <engine/events/Event.hpp>
+
 namespace Engine {
+
 class Layer {
 public:
   Layer(const char *name = "Layer") : m_name(name) {}
