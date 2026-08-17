@@ -18,10 +18,12 @@ public:
 
   virtual void setClearColor(float r, float g, float b, float a) = 0;
 
+  virtual void drawTriangle() = 0;
+
   static std::unique_ptr<RendererAPI> create();
 
   static GraphicsAPI currentAPI();
-  static void setGraphicAPIs(GraphicsAPI api);
+  static void setGraphicsAPIs(GraphicsAPI api);
 
 private:
   static GraphicsAPI s_currentAPI;

@@ -4,11 +4,11 @@
 #include <stdexcept>
 
 namespace Engine {
-GraphicsAPI RendererAPI::s_currentAPI = GraphicsAPI::None;
+GraphicsAPI RendererAPI::s_currentAPI = GraphicsAPI::OpenGL;
 
 GraphicsAPI RendererAPI::currentAPI() { return s_currentAPI; }
 
-void RendererAPI::setGraphicAPIs(GraphicsAPI api) { s_currentAPI = api; }
+void RendererAPI::setGraphicsAPIs(GraphicsAPI api) { s_currentAPI = api; }
 
 std::unique_ptr<RendererAPI> RendererAPI::create() {
   switch (s_currentAPI) {

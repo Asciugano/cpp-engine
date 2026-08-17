@@ -7,12 +7,13 @@
 
 namespace Engine {
 OpenGLVertexBuffer::OpenGLVertexBuffer(const void *data, std::size_t size) {
-  gl::glGenBuffers(1, &m_rendererID);
+  gl::GLuint id;
+  gl::glGenBuffers(1, &id);
+
+  m_rendererID = id;
 
   bind();
-
-  gl::glBufferData(gl::GL_ARRAY_BUFFER, static_cast<gl::GLsizeiptr>(size), data,
-                   gl::GL_STATIC_DRAW);
+  setData(data, size);
 }
 
 OpenGLVertexBuffer::~OpenGLVertexBuffer() {

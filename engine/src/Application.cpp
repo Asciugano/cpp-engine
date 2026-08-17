@@ -10,7 +10,7 @@
 #include <engine/Window.hpp>
 #include <engine/inputs/Input.hpp>
 #include <engine/inputs/KeyCodes.hpp>
-#include <engine/renderer/Rendered.hpp>
+#include <engine/renderer/Renderer.hpp>
 #include <glbinding/gl/gl.h>
 #include <glbinding/glbinding.h>
 #include <iostream>
@@ -46,11 +46,11 @@ void Application::run() {
 
     float dt = Time::deltaTime();
 
+    // INFO: UPDATE
+
     for (auto &layer : m_layerStack) {
       layer->onUpdate(dt);
     }
-
-    // INFO: UPDATE
 
     if (Input::isKeyPressed(Key::Up)) {
       debugMode = !debugMode;
@@ -66,10 +66,16 @@ void Application::run() {
       m_running = false;
     }
 
+    // INFO: Events
+
     m_window->pollEvents();
+
+    // INFO: Renderer
     Renderer::beginFrame();
 
-    // INFO: RENDER
+    for (auto &layer : m_layerStack) {
+      layer->onRender();
+    }
 
     Renderer::endFrame();
     m_context->swapBuffers();

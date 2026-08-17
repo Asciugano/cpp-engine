@@ -10,5 +10,7 @@ public:
   void clear() override;
 
   void setClearColor(float r, float g, float b, float a) override;
+
+  void drawTriangle() override;
 };
 } // namespace Engine
