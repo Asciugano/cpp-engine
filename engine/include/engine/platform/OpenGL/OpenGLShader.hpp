@@ -5,8 +5,7 @@
 namespace Engine {
 class OpenGLShader : public Shader {
 public:
-  OpenGLShader(const std::string &vertexSource,
-               const std::string &fragmentSource);
+  OpenGLShader(const std::string &vertexPath, const std::string &fragmentPath);
 
   ~OpenGLShader() override;
 

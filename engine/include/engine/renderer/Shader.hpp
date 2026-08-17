@@ -10,7 +10,7 @@ public:
   virtual void bind() const = 0;
   virtual void unbind() const = 0;
 
-  static std::unique_ptr<Shader> create(const std::string &vertexSource,
-                                        const std::string &fragmentSource);
+  static std::unique_ptr<Shader> create(const std::string &vertexPath,
+                                        const std::string &fragmentPath);
 };
 } // namespace Engine

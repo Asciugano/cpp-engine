@@ -58,27 +58,8 @@ void OpenGLRendererAPI::drawTriangle() {
 
     vao->setIndexBuffer(ibo);
 
-    const std::string vertexSource = R"(
-            #version 330 core
-
-            layout(location = 0) in vec3 pos;
-
-            void main() {
-                gl_Position = vec4(pos, 1.0);
-            }
-        )";
-
-    const std::string fragmentSource = R"(
-    #version 330 core
-
-    out vec4 color;
-
-    void main() {
-      color = vec4(1, 0, 0, 1);
-    }
-    )";
-
-    shader = Shader::create(vertexSource, fragmentSource);
+    shader = Shader::create("assets/shaders/basic.vert",
+                            "assets/shaders/basic.frag");
 
     initialized = true;
   }
