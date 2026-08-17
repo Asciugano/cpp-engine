@@ -1,3 +1,4 @@
+#include "glbinding/gl/boolean.h"
 #include <engine/platform/OpenGL/OpenGLVertexArray.hpp>
 #include <glbinding/gl/functions.h>
 #include <glbinding/gl/gl.h>
@@ -26,12 +27,20 @@ void OpenGLVertexArray::addVertexBuffer(
   bind();
   vertexBuffer->bind();
 
-  // INFO:
-  // location 0 = vec3 position
+  const auto &layout = vertexBuffer->getLayout();
 
-  gl::glEnableVertexAttribArray(0);
-  gl::glVertexAttribPointer(0, 3, gl::GL_FLOAT, gl::GL_FALSE, 3 * sizeof(float),
-                            nullptr);
+  uint32_t index = 0;
+
+  for (const auto &element : layout) {
+    gl::glEnableVertexAttribArray(index);
+    gl::glVertexAttribPointer(
+        index, static_cast<gl::GLint>(element.getCompenentCount()),
+        gl::GL_FLOAT, element.normalized ? gl::GL_TRUE : gl::GL_FALSE,
+        static_cast<gl::GLsizei>(layout.getStride()),
+        reinterpret_cast<const void *>(static_cast<uintptr_t>(element.offset)));
+
+    index++;
+  }
 }
 
 void OpenGLVertexArray::setIndexBuffer(

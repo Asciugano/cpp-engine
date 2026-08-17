@@ -1,4 +1,5 @@
 #include "engine/renderer/IndexBuffer.hpp"
+#include "engine/renderer/ShaderDataType.hpp"
 #include "glbinding/gl/enum.h"
 #include "glbinding/gl/types.h"
 #include <engine/platform/OpenGL/OpenGLRendererAPI.hpp>
@@ -44,8 +45,11 @@ void OpenGLRendererAPI::drawTriangle() {
     uint32_t indices[] = {0, 1, 2};
 
     vao = VertexArray::create();
+
     vbo = std::shared_ptr<VertexBuffer>(
         VertexBuffer::create(vertices, sizeof(vertices)).release());
+
+    vbo->setLayout({{ShaderDataType::Float3, "pos"}});
 
     vao->addVertexBuffer(vbo);
 

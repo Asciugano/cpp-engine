@@ -1,9 +1,9 @@
-#include "glbinding/gl/enum.h"
-#include "glbinding/gl/functions.h"
-#include "glbinding/gl/types.h"
 #include <cstddef>
 #include <engine/platform/OpenGL/OpenGLVertexBuffer.hpp>
+#include <glbinding/gl/enum.h>
+#include <glbinding/gl/functions.h>
 #include <glbinding/gl/gl.h>
+#include <glbinding/gl/types.h>
 
 namespace Engine {
 OpenGLVertexBuffer::OpenGLVertexBuffer(const void *data, std::size_t size) {
@@ -34,5 +34,11 @@ void OpenGLVertexBuffer::setData(const void *data, std::size_t size) {
   gl::glBufferData(gl::GL_ARRAY_BUFFER, static_cast<gl::GLsizeiptr>(size), data,
                    gl::GL_STATIC_DRAW);
 }
+
+void OpenGLVertexBuffer::setLayout(const BufferLayout &layout) {
+  m_layout = layout;
+}
+
+const BufferLayout &OpenGLVertexBuffer::getLayout() const { return m_layout; }
 
 } // namespace Engine

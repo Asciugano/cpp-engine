@@ -1,5 +1,6 @@
 #pragma once
 
+#include "engine/renderer/BufferLayout.hpp"
 #include <cstddef>
 #include <memory>
 
@@ -15,5 +16,9 @@ public:
 
   static std::unique_ptr<VertexBuffer> create(const void *data,
                                               std::size_t size);
+
+  virtual void setLayout(const BufferLayout &layout) = 0;
+
+  virtual const BufferLayout &getLayout() const = 0;
 };
 } // namespace Engine
