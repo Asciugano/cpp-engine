@@ -33,4 +33,16 @@ void OpenGLVertexArray::addVertexBuffer(
   gl::glVertexAttribPointer(0, 3, gl::GL_FLOAT, gl::GL_FALSE, 3 * sizeof(float),
                             nullptr);
 }
+
+void OpenGLVertexArray::setIndexBuffer(
+    const std::shared_ptr<IndexBuffer> &indexBuffer) {
+  bind();
+  indexBuffer->bind();
+
+  m_indexBuffer = indexBuffer;
+}
+
+const std::shared_ptr<IndexBuffer> &OpenGLVertexArray::getIndexBuffer() const {
+  return m_indexBuffer;
+}
 } // namespace Engine

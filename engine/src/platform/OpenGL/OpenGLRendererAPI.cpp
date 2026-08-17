@@ -1,3 +1,6 @@
+#include "engine/renderer/IndexBuffer.hpp"
+#include "glbinding/gl/enum.h"
+#include "glbinding/gl/types.h"
 #include <engine/platform/OpenGL/OpenGLRendererAPI.hpp>
 #include <engine/platform/OpenGL/OpenGLShader.hpp>
 #include <engine/platform/OpenGL/OpenGLVertexArray.hpp>
@@ -31,16 +34,25 @@ void OpenGLRendererAPI::drawTriangle() {
 
   static std::unique_ptr<VertexArray> vao;
   static std::shared_ptr<VertexBuffer> vbo;
+  static std::shared_ptr<IndexBuffer> ibo;
   static std::unique_ptr<Shader> shader;
 
   if (!initialized) {
-    float vertices[] = {0, 0.5f, 0, -0.5f, -0.5f, 0, 0.5f, -0.5f, 0};
+    float vertices[] = {0.0f, 0.5f, 0.0f,  -0.5f, -0.5f,
+                        0.0f, 0.5f, -0.5f, 0.0f};
+
+    uint32_t indices[] = {0, 1, 2};
 
     vao = VertexArray::create();
     vbo = std::shared_ptr<VertexBuffer>(
         VertexBuffer::create(vertices, sizeof(vertices)).release());
 
     vao->addVertexBuffer(vbo);
+
+    ibo =
+        std::shared_ptr<IndexBuffer>(IndexBuffer::create(indices, 3).release());
+
+    vao->setIndexBuffer(ibo);
 
     const std::string vertexSource = R"(
             #version 330 core
@@ -70,6 +82,9 @@ void OpenGLRendererAPI::drawTriangle() {
   vao->bind();
   shader->bind();
 
-  gl::glDrawArrays(gl::GL_TRIANGLES, 0, 3);
+  gl::glDrawElements(
+      gl::GL_TRIANGLES,
+      static_cast<gl::GLsizei>(vao->getIndexBuffer()->getCount()),
+      gl::GL_UNSIGNED_INT, nullptr);
 }
 } // namespace Engine
