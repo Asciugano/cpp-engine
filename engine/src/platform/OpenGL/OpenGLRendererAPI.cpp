@@ -1,13 +1,16 @@
-#include "engine/renderer/IndexBuffer.hpp"
-#include "engine/renderer/ShaderDataType.hpp"
-#include "glbinding/gl/enum.h"
-#include "glbinding/gl/types.h"
 #include <engine/platform/OpenGL/OpenGLRendererAPI.hpp>
 #include <engine/platform/OpenGL/OpenGLShader.hpp>
 #include <engine/platform/OpenGL/OpenGLVertexArray.hpp>
 #include <engine/platform/OpenGL/OpenGLVertexBuffer.hpp>
+#include <engine/renderer/IndexBuffer.hpp>
+#include <engine/renderer/Shader.hpp>
+#include <engine/renderer/ShaderDataType.hpp>
+#include <glbinding/gl/enum.h>
 #include <glbinding/gl/functions.h>
 #include <glbinding/gl/gl.h>
+#include <glbinding/gl/types.h>
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_transform.hpp>
 #include <memory>
 
 using namespace gl;
@@ -60,6 +63,30 @@ void OpenGLRendererAPI::drawTriangle() {
 
     shader = Shader::create("assets/shaders/basic.vert",
                             "assets/shaders/basic.frag");
+
+    shader->bind();
+
+    shader->setVec4("u_Color", glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+
+    glm::mat4 model = glm::mat4(1.0f);
+
+    glm::mat4 view =
+        glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), // posizione camera
+                    glm::vec3(0.0f, 0.0f, 0.0f), // punto osservato
+                    glm::vec3(0.0f, 1.0f, 0.0f)  // up
+        );
+
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), // FOV
+                                            1280.0f / 720.0f,    // aspect ratio
+                                            0.1f,                // near
+                                            100.0f               // far
+    );
+
+    shader->setMat4("u_Model", model);
+
+    shader->setMat4("u_View", view);
+
+    shader->setMat4("u_Projection", projection);
 
     initialized = true;
   }
