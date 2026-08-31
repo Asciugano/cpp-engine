@@ -42,7 +42,9 @@ void RallyLayer::onAttach() {
 
 void RallyLayer::onDetach() { std::cout << "RallyLayer Detached" << std::endl; }
 
-void RallyLayer::onUpdate(float dt) {}
+void RallyLayer::onUpdate(float dt) {
+  m_transform.rotate(glm::vec3(0.0f, 90.f * dt, 0.0f));
+}
 
 void RallyLayer::onEvent(Engine::Event &event) {
   std::cout << event.name() << std::endl;
@@ -53,7 +55,6 @@ void RallyLayer::onRender() {
     onAttach();
   }
 
-  glm::mat4 model = glm::mat4(1.0f);
   glm::mat4 view =
       glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f),
                   glm::vec3(0.0f, 1.0f, 0.0f));
@@ -63,7 +64,7 @@ void RallyLayer::onRender() {
 
   m_shader->bind();
 
-  m_shader->setMat4("u_Model", model);
+  m_shader->setMat4("u_Model", m_transform.getMatrix());
   m_shader->setMat4("u_View", view);
   m_shader->setMat4("u_Projection", projection);
 
