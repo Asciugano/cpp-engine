@@ -11,10 +11,37 @@
 RallyLayer::RallyLayer() : Layer("Rally") {}
 
 void RallyLayer::onAttach() {
-  float vertices[] = {// position
-                      0.0f, 0.5f, 0.0f, -0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f};
+  float vertices[] = {
+      // Front
+      -0.5f, -0.5f, 0.5f, // 0
+      0.5f, -0.5f, 0.5f,  // 1
+      0.5f, 0.5f, 0.5f,   // 2
+      -0.5f, 0.5f, 0.5f,  // 3
 
-  uint32_t indices[] = {0, 1, 2};
+      // Back
+      -0.5f, -0.5f, -0.5f, // 4
+      0.5f, -0.5f, -0.5f,  // 5
+      0.5f, 0.5f, -0.5f,   // 6
+      -0.5f, 0.5f, -0.5f   // 7
+  };
+
+  uint32_t indices[] = {// Front
+                        0, 1, 2, 2, 3, 0,
+
+                        // Back
+                        5, 4, 7, 7, 6, 5,
+
+                        // Left
+                        4, 0, 3, 3, 7, 4,
+
+                        // Right
+                        1, 5, 6, 6, 2, 1,
+
+                        // Top
+                        3, 2, 6, 6, 7, 3,
+
+                        // Bottom
+                        4, 5, 1, 1, 0, 4};
 
   m_vao = Engine::VertexArray::create();
 
@@ -25,8 +52,10 @@ void RallyLayer::onAttach() {
 
   m_vao->addVertexBuffer(m_vbo);
 
+  const uint32_t indexCount = sizeof(indices) / sizeof(uint32_t);
+
   m_ibo = std::shared_ptr<Engine::IndexBuffer>(
-      Engine::IndexBuffer::create(indices, 3).release());
+      Engine::IndexBuffer::create(indices, indexCount).release());
 
   m_vao->setIndexBuffer(m_ibo);
 
