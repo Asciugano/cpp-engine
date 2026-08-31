@@ -11,6 +11,7 @@ public:
 
   void setClearColor(float r, float g, float b, float a) override;
 
-  void drawTriangle() override;
+  void drawIndexed(const VertexArray &vertexArray,
+                   const Shader &shader) override;
 };
 } // namespace Engine

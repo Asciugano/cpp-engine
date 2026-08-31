@@ -22,4 +22,8 @@ void Renderer::endFrame() {}
 void Renderer::setClearColor(float r, float g, float b, float a) {
   RenderComand::setClearColor(r, g, b, a);
 }
+
+void Renderer::draw(const VertexArray &vertexArray, const Shader &shader) {
+  RenderComand::drawIndexed(vertexArray, shader);
+}
 } // namespace Engine

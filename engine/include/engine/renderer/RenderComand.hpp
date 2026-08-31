@@ -11,7 +11,7 @@ public:
 
   static void setClearColor(float r, float g, float b, float a);
 
-  static void drawTriangle();
+  static void drawIndexed(const VertexArray &vertexArray, const Shader &shader);
 
 private:
   static std::unique_ptr<RendererAPI> s_rendererAPI;
