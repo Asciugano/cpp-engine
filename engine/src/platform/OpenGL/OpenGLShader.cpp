@@ -119,6 +119,8 @@ std::string OpenGLShader::readFile(const std::string &path) {
 
   std::stringstream buffer;
   buffer << file.rdbuf();
+  if (!file)
+    throw std::runtime_error("Failed to read shader file: " + path);
 
   return buffer.str();
 }
@@ -163,6 +165,8 @@ gl::GLuint OpenGLShader::createProgram(const std::string &vertexSource,
       compileShader(gl::GL_FRAGMENT_SHADER, fragmentSource);
 
   const gl::GLuint program = gl::glCreateProgram();
+  if (program == 0)
+    throw std::runtime_error("Failed to create shader program");
 
   gl::glAttachShader(program, vertexShader);
 
