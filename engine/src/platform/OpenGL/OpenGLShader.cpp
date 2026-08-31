@@ -107,6 +107,8 @@ gl::GLint OpenGLShader::getUniformLocation(const std::string &name) {
 
   m_uniformLocations.emplace(name, location);
 
+  std::cout << "Locking up uniform: " << name << std::endl;
+
   return location;
 }
 

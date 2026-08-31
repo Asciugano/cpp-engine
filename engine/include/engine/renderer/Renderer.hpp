@@ -1,6 +1,7 @@
 #pragma once
 
-#include "engine/EngineConfig.hpp"
+#include <engine/EngineConfig.hpp>
+
 namespace Engine {
 
 class RendererAPI;
@@ -14,7 +15,7 @@ public:
 
   static void setClearColor(float r, float g, float b, float a);
 
-  static void drawTriangle();
+  static void draw(const VertexArray &vertexArray, const Shader &shader);
 };
 
 } // namespace Engine

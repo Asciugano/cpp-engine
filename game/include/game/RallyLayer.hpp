@@ -1,7 +1,10 @@
 #pragma once
 
-#include "engine/events/Event.hpp"
+#include <engine/events/Event.hpp>
 #include <engine/layer/Layer.hpp>
+#include <engine/renderer/Shader.hpp>
+#include <engine/renderer/VertexArray.hpp>
+#include <memory>
 
 class RallyLayer : public Engine::Layer {
 public:
@@ -16,5 +19,10 @@ public:
   void onRender() override;
 
 private:
-  float m_rotation = 0.0f;
+  std::unique_ptr<Engine::VertexArray> m_vao;
+  std::shared_ptr<Engine::VertexBuffer> m_vbo;
+  std::shared_ptr<Engine::IndexBuffer> m_ibo;
+  std::unique_ptr<Engine::Shader> m_shader;
+
+  bool m_initialized = false;
 };
