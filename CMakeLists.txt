@@ -16,6 +16,21 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(cmake/CPM.cmake)
 include(cmake/Dependencies.cmake)
 
+set(RALLY_ASSETS_DIR
+    ${CMAKE_SOURCE_DIR}/assets
+)
+
+set(RALLY_ASSETS_BINARY_DIR
+    ${CMAKE_BINARY_DIR}/assets
+)
+
+add_custom_target(copy_assets ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${RALLY_ASSETS_DIR}
+        ${RALLY_ASSETS_BINARY_DIR}
+    COMMENT "Copying game assets..."
+)
+
 add_subdirectory(engine)
 add_subdirectory(game)
 # add_subdirectory(sandbox)

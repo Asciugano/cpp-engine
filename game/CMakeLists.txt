@@ -21,3 +21,5 @@ target_compile_features(Rally
     PRIVATE
         cxx_std_23
 )
+
+add_dependencies(Rally copy_assets)
