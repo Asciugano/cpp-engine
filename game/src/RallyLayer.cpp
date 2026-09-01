@@ -100,7 +100,7 @@ void RallyLayer::onRender() {
     onAttach();
   }
 
-  m_material->getShader().bind();
+  m_material->bind();
 
   m_material->getShader().setMat4("u_Model", m_transform.getMatrix());
   m_material->getShader().setMat4("u_View", m_camera.getViewMatrix());
