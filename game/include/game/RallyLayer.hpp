@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/EngineConfig.hpp"
+#include "engine/renderer/Mesh.hpp"
 #include <engine/events/Event.hpp>
 #include <engine/layer/Layer.hpp>
 #include <engine/renderer/Shader.hpp>
@@ -22,9 +23,7 @@ public:
   void onRender() override;
 
 private:
-  std::unique_ptr<Engine::VertexArray> m_vao;
-  std::shared_ptr<Engine::VertexBuffer> m_vbo;
-  std::shared_ptr<Engine::IndexBuffer> m_ibo;
+  std::unique_ptr<Engine::Mesh> m_mesh;
   std::unique_ptr<Engine::Shader> m_shader;
 
   Engine::Transform m_transform;
