@@ -36,8 +36,8 @@ enum class Key {
 
   Escape = 256,
 
-  Left = 263,
-  Right,
+  Right = 262,
+  Left,
   Down,
   Up
 };
