@@ -52,7 +52,7 @@ void RallyLayer::onAttach() {
 
   m_vao->addVertexBuffer(m_vbo);
 
-  const uint32_t indexCount = sizeof(indices) / sizeof(uint32_t);
+  const uint32_t indexCount = static_cast<uint32_t>(std::size(indices));
 
   m_ibo = std::shared_ptr<Engine::IndexBuffer>(
       Engine::IndexBuffer::create(indices, indexCount).release());
@@ -84,18 +84,11 @@ void RallyLayer::onRender() {
     onAttach();
   }
 
-  glm::mat4 view =
-      glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-                  glm::vec3(0.0f, 1.0f, 0.0f));
-
-  glm::mat4 projection =
-      glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
-
   m_shader->bind();
 
   m_shader->setMat4("u_Model", m_transform.getMatrix());
-  m_shader->setMat4("u_View", view);
-  m_shader->setMat4("u_Projection", projection);
+  m_shader->setMat4("u_View", m_camera.getViewMatrix());
+  m_shader->setMat4("u_Projection", m_camera.getProjectionMatrix());
 
   Engine::Renderer::draw(*m_vao, *m_shader);
 }

@@ -4,6 +4,7 @@
 #include <engine/layer/Layer.hpp>
 #include <engine/renderer/Shader.hpp>
 #include <engine/renderer/VertexArray.hpp>
+#include <engine/scene/Camera.hpp>
 #include <engine/scene/Transform.hpp>
 #include <memory>
 
@@ -26,6 +27,7 @@ private:
   std::unique_ptr<Engine::Shader> m_shader;
 
   Engine::Transform m_transform;
+  Engine::Camera m_camera{45.0f, 1280.0f / 720.0f, 0.1f, 100.0f};
 
   bool m_initialized = false;
 };
