@@ -45,6 +45,8 @@ void Camera::setAspectRatio(float aspectRatio) {
 }
 
 void Camera::setNearClip(float nearClip) {
+  if (nearClip <= 0 || nearClip >= m_farClip)
+    return;
   m_nearClip = nearClip;
 
   updateProjectionMatrix();
@@ -99,6 +101,9 @@ void Camera::updateProjectionMatrix() {
 }
 
 void Camera::lookAt(const glm::vec3 &target) {
+  if (target == m_position)
+    return;
+
   glm::vec3 direction = glm::normalize(target - m_position);
 
   m_rotation.y = glm::degrees(std::atan2(direction.x, -direction.z));

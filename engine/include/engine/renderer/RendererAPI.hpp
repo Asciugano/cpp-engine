@@ -29,6 +29,9 @@ public:
   static GraphicsAPI currentAPI();
   static void setGraphicsAPIs(GraphicsAPI api);
 
+  virtual void setViewport(uint32_t x, uint32_t y, uint32_t width,
+                           uint32_t height) = 0;
+
 private:
   static GraphicsAPI s_currentAPI;
 };

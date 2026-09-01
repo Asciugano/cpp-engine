@@ -26,4 +26,9 @@ void Renderer::setClearColor(float r, float g, float b, float a) {
 void Renderer::draw(const VertexArray &vertexArray, const Shader &shader) {
   RenderComand::drawIndexed(vertexArray, shader);
 }
+
+void Renderer::setViewport(uint32_t x, uint32_t y, uint32_t width,
+                           uint32_t height) {
+  RenderComand::setViewport(x, y, width, height);
+}
 } // namespace Engine

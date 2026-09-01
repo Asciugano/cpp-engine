@@ -1,6 +1,10 @@
+#include <engine/EngineConfig.hpp>
+#include <engine/events/ApplicationEvent.hpp>
 #include <engine/events/Event.hpp>
+#include <engine/events/EventDispacher.hpp>
 #include <engine/renderer/RenderComand.hpp>
 #include <engine/renderer/Renderer.hpp>
+#include <engine/scene/Camera.hpp>
 #include <game/RallyLayer.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_float4x4.hpp>
@@ -8,7 +12,11 @@
 #include <glm/ext/vector_float3.hpp>
 #include <iostream>
 
-RallyLayer::RallyLayer() : Layer("Rally") {}
+RallyLayer::RallyLayer(const Engine::WindowConfig &config)
+    : Layer("Rally"), m_camera(45.0f,
+                               static_cast<float>(config.width) /
+                                   static_cast<float>(config.height),
+                               0.1f, 100.f) {}
 
 void RallyLayer::onAttach() {
   float vertices[] = {
@@ -76,7 +84,22 @@ void RallyLayer::onUpdate(float dt) {
 }
 
 void RallyLayer::onEvent(Engine::Event &event) {
-  std::cout << event.name() << std::endl;
+  Engine::EventDispacher dispacher(event);
+
+  dispacher.dispatch<Engine::WindowResizeEvent>(
+      [this](Engine::WindowResizeEvent &event) {
+        if (event.height() == 0)
+          return false;
+
+        const float aspectRatio = static_cast<float>(event.width()) /
+                                  static_cast<float>(event.height());
+
+        m_camera.setAspectRatio(aspectRatio);
+
+        Engine::Renderer::setViewport(0, 0, event.width(), event.height());
+
+        return false;
+      });
 }
 
 void RallyLayer::onRender() {
