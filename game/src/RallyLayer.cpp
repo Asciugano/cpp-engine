@@ -65,9 +65,7 @@ void RallyLayer::onAttach() {
                              "assets/shaders/basic.frag"),
       glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
 
-  m_material->getShader().bind();
-
-  m_material->getShader().setVec4("u_Color", m_material->getColor());
+  m_material->bind();
 
   m_initialized = true;
 }

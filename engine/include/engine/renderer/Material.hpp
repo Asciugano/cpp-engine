@@ -1,7 +1,7 @@
 #pragma once
 
 #include <engine/renderer/Shader.hpp>
-#include <glm/ext/vector_float4.hpp>
+#include <glm/vec4.hpp>
 #include <memory>
 
 namespace Engine {
@@ -15,6 +15,8 @@ public:
 
   void setColor(const glm::vec4 &color);
   const glm::vec4 &getColor() const;
+
+  void bind(const char *name = "u_Color") const;
 
 private:
   std::unique_ptr<Shader> m_shader;
