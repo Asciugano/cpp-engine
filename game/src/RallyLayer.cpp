@@ -1,11 +1,13 @@
-#include "engine/renderer/Mesh.hpp"
-#include "engine/renderer/ShaderDataType.hpp"
 #include <engine/EngineConfig.hpp>
 #include <engine/events/ApplicationEvent.hpp>
 #include <engine/events/Event.hpp>
 #include <engine/events/EventDispacher.hpp>
+#include <engine/renderer/Material.hpp>
+#include <engine/renderer/Mesh.hpp>
 #include <engine/renderer/RenderComand.hpp>
 #include <engine/renderer/Renderer.hpp>
+#include <engine/renderer/Shader.hpp>
+#include <engine/renderer/ShaderDataType.hpp>
 #include <engine/scene/Camera.hpp>
 #include <game/RallyLayer.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
@@ -13,6 +15,7 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/vector_float3.hpp>
 #include <iostream>
+#include <memory>
 
 RallyLayer::RallyLayer(const Engine::WindowConfig &config)
     : Layer("Rally"), m_camera(45.0f,
@@ -57,12 +60,14 @@ void RallyLayer::onAttach() {
       vertices, sizeof(vertices), indices, std::size(indices),
       {{Engine::ShaderDataType::Float3, "a_Position"}});
 
-  m_shader = Engine::Shader::create("assets/shaders/basic.vert",
-                                    "assets/shaders/basic.frag");
+  m_material = std::make_unique<Engine::Material>(
+      Engine::Shader::create("assets/shaders/basic.vert",
+                             "assets/shaders/basic.frag"),
+      glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
 
-  m_shader->bind();
+  m_material->getShader().bind();
 
-  m_shader->setVec4("u_Color", glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+  m_material->getShader().setVec4("u_Color", m_material->getColor());
 
   m_initialized = true;
 }
@@ -97,11 +102,12 @@ void RallyLayer::onRender() {
     onAttach();
   }
 
-  m_shader->bind();
+  m_material->getShader().bind();
 
-  m_shader->setMat4("u_Model", m_transform.getMatrix());
-  m_shader->setMat4("u_View", m_camera.getViewMatrix());
-  m_shader->setMat4("u_Projection", m_camera.getProjectionMatrix());
+  m_material->getShader().setMat4("u_Model", m_transform.getMatrix());
+  m_material->getShader().setMat4("u_View", m_camera.getViewMatrix());
+  m_material->getShader().setMat4("u_Projection",
+                                  m_camera.getProjectionMatrix());
 
-  Engine::Renderer::draw(m_mesh->getVertexArray(), *m_shader);
+  Engine::Renderer::draw(m_mesh->getVertexArray(), m_material->getShader());
 }

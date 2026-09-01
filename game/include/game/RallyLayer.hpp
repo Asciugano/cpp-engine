@@ -1,9 +1,10 @@
 #pragma once
 
-#include "engine/EngineConfig.hpp"
-#include "engine/renderer/Mesh.hpp"
+#include <engine/EngineConfig.hpp>
 #include <engine/events/Event.hpp>
 #include <engine/layer/Layer.hpp>
+#include <engine/renderer/Material.hpp>
+#include <engine/renderer/Mesh.hpp>
 #include <engine/renderer/Shader.hpp>
 #include <engine/renderer/VertexArray.hpp>
 #include <engine/scene/Camera.hpp>
@@ -24,7 +25,7 @@ public:
 
 private:
   std::unique_ptr<Engine::Mesh> m_mesh;
-  std::unique_ptr<Engine::Shader> m_shader;
+  std::unique_ptr<Engine::Material> m_material;
 
   Engine::Transform m_transform;
   Engine::Camera m_camera;
