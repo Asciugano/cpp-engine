@@ -33,73 +33,6 @@ void OpenGLRendererAPI::setClearColor(float r, float g, float b, float a) {
   glClearColor(r, g, b, a);
 }
 
-// void OpenGLRendererAPI::drawTriangle() {
-//   static bool initialized = false;
-//
-//   static std::unique_ptr<VertexArray> vao;
-//   static std::shared_ptr<VertexBuffer> vbo;
-//   static std::shared_ptr<IndexBuffer> ibo;
-//   static std::unique_ptr<Shader> shader;
-//
-//   if (!initialized) {
-//     float vertices[] = {0.0f, 0.5f, 0.0f,  -0.5f, -0.5f,
-//                         0.0f, 0.5f, -0.5f, 0.0f};
-//
-//     uint32_t indices[] = {0, 1, 2};
-//
-//     vao = VertexArray::create();
-//
-//     vbo = std::shared_ptr<VertexBuffer>(
-//         VertexBuffer::create(vertices, sizeof(vertices)).release());
-//
-//     vbo->setLayout({{ShaderDataType::Float3, "pos"}});
-//
-//     vao->addVertexBuffer(vbo);
-//
-//     ibo =
-//         std::shared_ptr<IndexBuffer>(IndexBuffer::create(indices,
-//         3).release());
-//
-//     vao->setIndexBuffer(ibo);
-//
-//     shader = Shader::create("assets/shaders/basic.vert",
-//                             "assets/shaders/basic.frag");
-//
-//     shader->bind();
-//
-//     shader->setVec4("u_Color", glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-//
-//     glm::mat4 model = glm::mat4(1.0f);
-//
-//     glm::mat4 view =
-//         glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), // posizione camera
-//                     glm::vec3(0.0f, 0.0f, 0.0f), // punto osservato
-//                     glm::vec3(0.0f, 1.0f, 0.0f)  // up
-//         );
-//
-//     glm::mat4 projection = glm::perspective(glm::radians(45.0f), // FOV
-//                                             1280.0f / 720.0f,    // aspect
-//                                             ratio 0.1f,                //
-//                                             near 100.0f               // far
-//     );
-//
-//     shader->setMat4("u_Model", model);
-//
-//     shader->setMat4("u_View", view);
-//
-//     shader->setMat4("u_Projection", projection);
-//
-//     initialized = true;
-//   }
-//
-//   vao->bind();
-//   shader->bind();
-//
-//   gl::glDrawElements(
-//       gl::GL_TRIANGLES,
-//       static_cast<gl::GLsizei>(vao->getIndexBuffer()->getCount()),
-//       gl::GL_UNSIGNED_INT, nullptr);
-// }
 void OpenGLRendererAPI::drawIndexed(const VertexArray &vertexArray,
                                     const Shader &shader) {
   vertexArray.bind();
@@ -110,5 +43,10 @@ void OpenGLRendererAPI::drawIndexed(const VertexArray &vertexArray,
   gl::glDrawElements(gl::GL_TRIANGLES,
                      static_cast<gl::GLsizei>(indexBuffer->getCount()),
                      gl::GL_UNSIGNED_INT, nullptr);
+}
+
+void OpenGLRendererAPI::setViewport(uint32_t x, uint32_t y, uint32_t width,
+                                    uint32_t height) {
+  gl::glViewport(x, y, width, height);
 }
 } // namespace Engine
