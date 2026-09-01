@@ -1,3 +1,5 @@
+#include "engine/renderer/Mesh.hpp"
+#include "engine/renderer/ShaderDataType.hpp"
 #include <engine/EngineConfig.hpp>
 #include <engine/events/ApplicationEvent.hpp>
 #include <engine/events/Event.hpp>
@@ -51,21 +53,9 @@ void RallyLayer::onAttach() {
                         // Bottom
                         4, 5, 1, 1, 0, 4};
 
-  m_vao = Engine::VertexArray::create();
-
-  m_vbo = std::shared_ptr<Engine::VertexBuffer>(
-      Engine::VertexBuffer::create(vertices, sizeof(vertices)).release());
-
-  m_vbo->setLayout({{Engine::ShaderDataType::Float3, "a_Position"}});
-
-  m_vao->addVertexBuffer(m_vbo);
-
-  const uint32_t indexCount = static_cast<uint32_t>(std::size(indices));
-
-  m_ibo = std::shared_ptr<Engine::IndexBuffer>(
-      Engine::IndexBuffer::create(indices, indexCount).release());
-
-  m_vao->setIndexBuffer(m_ibo);
+  m_mesh = Engine::Mesh::create(
+      vertices, sizeof(vertices), indices, std::size(indices),
+      {{Engine::ShaderDataType::Float3, "a_Position"}});
 
   m_shader = Engine::Shader::create("assets/shaders/basic.vert",
                                     "assets/shaders/basic.frag");
@@ -113,5 +103,5 @@ void RallyLayer::onRender() {
   m_shader->setMat4("u_View", m_camera.getViewMatrix());
   m_shader->setMat4("u_Projection", m_camera.getProjectionMatrix());
 
-  Engine::Renderer::draw(*m_vao, *m_shader);
+  Engine::Renderer::draw(m_mesh->getVertexArray(), *m_shader);
 }
