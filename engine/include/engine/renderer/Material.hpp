@@ -3,7 +3,6 @@
 #include <engine/renderer/Shader.hpp>
 #include <glm/vec4.hpp>
 #include <memory>
-#include <string>
 #include <type_traits>
 
 namespace Engine {
@@ -20,8 +19,7 @@ public:
 
   void bind(const char *name = "u_Color") const;
 
-  template <typename T>
-  void setUniform(const std::string &name, const T &value) {
+  template <typename T> void setUniform(const char *name, const T &value) {
 
     using Type = std::remove_cvref_t<T>;
 
