@@ -3,6 +3,8 @@
 #include <engine/renderer/Shader.hpp>
 #include <glm/vec4.hpp>
 #include <memory>
+#include <string>
+#include <type_traits>
 
 namespace Engine {
 class Material {
@@ -17,6 +19,28 @@ public:
   const glm::vec4 &getColor() const;
 
   void bind(const char *name = "u_Color") const;
+
+  template <typename T>
+  void setUniform(const std::string &name, const T &value) {
+
+    using Type = std::remove_cvref_t<T>;
+
+    if constexpr (std::is_same_v<Type, float>) {
+      m_shader->setFloat(name, value);
+    } else if constexpr (std::is_same_v<Type, int>) {
+      m_shader->setInt(name, value);
+    } else if constexpr (std::is_same_v<Type, glm::vec2>) {
+      m_shader->setVec2(name, value);
+    } else if constexpr (std::is_same_v<Type, glm::vec3>) {
+      m_shader->setVec3(name, value);
+    } else if constexpr (std::is_same_v<Type, glm::vec4>) {
+      m_shader->setVec4(name, value);
+    } else if constexpr (std::is_same_v<Type, glm::mat4>) {
+      m_shader->setMat4(name, value);
+    } else {
+      static_assert(false, "Unsupported uniform type");
+    }
+  }
 
 private:
   std::unique_ptr<Shader> m_shader;
