@@ -28,15 +28,12 @@ void Renderer::setClearColor(float r, float g, float b, float a) {
 void Renderer::draw(const Mesh &mesh, Material &material,
                     const Transform &transform, const Camera &camera) {
 
-  Shader &shader = material.getShader();
-  shader.bind();
+  material.setUniform<glm::vec4>("u_Color", material.getColor());
+  material.setUniform<glm::mat4>("u_Model", transform.getMatrix());
+  material.setUniform<glm::mat4>("u_View", camera.getViewMatrix());
+  material.setUniform<glm::mat4>("u_Projection", camera.getProjectionMatrix());
 
-  shader.setVec4("u_Color", material.getColor());
-  shader.setMat4("u_Model", transform.getMatrix());
-  shader.setMat4("u_View", camera.getViewMatrix());
-  shader.setMat4("u_Projection", camera.getProjectionMatrix());
-
-  RenderComand::drawIndexed(mesh.getVertexArray(), shader);
+  RenderComand::drawIndexed(mesh.getVertexArray(), material.getShader());
 }
 
 void Renderer::setViewport(uint32_t x, uint32_t y, uint32_t width,
