@@ -206,5 +206,4 @@ gl::GLuint OpenGLShader::createProgram(const std::string &vertexSource,
 
   return program;
 }
-
 } // namespace Engine

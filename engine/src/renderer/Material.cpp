@@ -19,8 +19,6 @@ Material::Material(std::unique_ptr<Shader> shader, const glm::vec4 &color)
 
 Shader &Material::getShader() { return *m_shader; }
 
-const Shader &Material::getShader() const { return *m_shader; }
-
 void Material::setColor(const glm::vec4 &color) { m_color = color; }
 
 const glm::vec4 &Material::getColor() const { return m_color; }

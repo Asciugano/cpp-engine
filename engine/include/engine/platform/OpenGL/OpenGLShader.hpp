@@ -10,7 +10,7 @@
 
 namespace Engine {
 
-class OpenGLShader final : public Shader {
+class OpenGLShader : public Shader {
 public:
   OpenGLShader(const std::string &vertexPath, const std::string &fragmentPath);
 

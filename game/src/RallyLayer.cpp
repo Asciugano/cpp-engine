@@ -65,8 +65,6 @@ void RallyLayer::onAttach() {
                              "assets/shaders/basic.frag"),
       glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
 
-  m_material->bind();
-
   m_initialized = true;
 }
 
@@ -100,12 +98,5 @@ void RallyLayer::onRender() {
     onAttach();
   }
 
-  m_material->bind();
-
-  m_material->getShader().setMat4("u_Model", m_transform.getMatrix());
-  m_material->getShader().setMat4("u_View", m_camera.getViewMatrix());
-  m_material->getShader().setMat4("u_Projection",
-                                  m_camera.getProjectionMatrix());
-
-  Engine::Renderer::draw(m_mesh->getVertexArray(), m_material->getShader());
+  Engine::Renderer::draw(*m_mesh, *m_material, m_transform, m_camera);
 }

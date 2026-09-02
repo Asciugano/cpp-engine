@@ -1,6 +1,10 @@
 #pragma once
 
 #include <engine/EngineConfig.hpp>
+#include <engine/renderer/Material.hpp>
+#include <engine/renderer/Mesh.hpp>
+#include <engine/scene/Camera.hpp>
+#include <engine/scene/Transform.hpp>
 
 namespace Engine {
 
@@ -15,7 +19,8 @@ public:
 
   static void setClearColor(float r, float g, float b, float a);
 
-  static void draw(const VertexArray &vertexArray, const Shader &shader);
+  static void draw(const Mesh &mesh, Material &material,
+                   const Transform &transform, const Camera &camera);
 
   static void setViewport(uint32_t x, uint32_t y, uint32_t width,
                           uint32_t height);
