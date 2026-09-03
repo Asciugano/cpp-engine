@@ -26,6 +26,9 @@ void Renderer::setClearColor(float r, float g, float b, float a) {
 }
 
 void Renderer::draw(Entity &entity, const Camera &camera) {
+  if (!entity.isRendendable())
+    return;
+
   entity.getMaterial()->setUniform<glm::vec4>("u_Color",
                                               entity.getMaterial()->getColor());
   entity.getMaterial()->setUniform<glm::mat4>(

@@ -29,6 +29,8 @@ public:
   Material *getMaterial();
   const Material *getMaterial() const;
 
+  const bool isRendendable() const;
+
 private:
   Transform m_transform;
 

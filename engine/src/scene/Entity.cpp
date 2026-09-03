@@ -1,4 +1,4 @@
-#include "engine/renderer/Material.hpp"
+#include <engine/renderer/Material.hpp>
 #include <engine/scene/Entity.hpp>
 #include <engine/scene/Transform.hpp>
 #include <memory>
@@ -17,5 +17,9 @@ void Entity::setMesh(std::shared_ptr<Mesh> mesh) { m_mesh = mesh; }
 
 void Entity::setMaterial(std::shared_ptr<Material> material) {
   m_material = material;
+}
+
+const bool Entity::isRendendable() const {
+  return m_mesh != nullptr && m_material != nullptr;
 }
 } // namespace Engine
