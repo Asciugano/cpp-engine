@@ -8,8 +8,8 @@
 #include <engine/renderer/Shader.hpp>
 #include <engine/renderer/VertexArray.hpp>
 #include <engine/scene/Camera.hpp>
+#include <engine/scene/Entity.hpp>
 #include <engine/scene/Transform.hpp>
-#include <memory>
 
 class RallyLayer : public Engine::Layer {
 public:
@@ -24,10 +24,7 @@ public:
   void onRender() override;
 
 private:
-  std::unique_ptr<Engine::Mesh> m_mesh;
-  std::unique_ptr<Engine::Material> m_material;
-
-  Engine::Transform m_transform;
+  Engine::Entity car;
   Engine::Camera m_camera;
 
   bool m_initialized = false;
