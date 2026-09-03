@@ -1,7 +1,7 @@
 #pragma once
 
-#include "glbinding/gl/types.h"
 #include <engine/renderer/Shader.hpp>
+#include <glbinding/gl/types.h>
 
 #include <glbinding/gl/gl.h>
 
@@ -25,17 +25,17 @@ public:
   void bind() const override;
   void unbind() const override;
 
-  void setInt(const std::string &name, int value) override;
+  void setInt(const char *name, int value) override;
 
-  void setFloat(const std::string &name, float value) override;
+  void setFloat(const char *name, float value) override;
 
-  void setVec2(const std::string &name, const glm::vec2 &value) override;
+  void setVec2(const char *name, const glm::vec2 &value) override;
 
-  void setVec3(const std::string &name, const glm::vec3 &value) override;
+  void setVec3(const char *name, const glm::vec3 &value) override;
 
-  void setVec4(const std::string &name, const glm::vec4 &value) override;
+  void setVec4(const char *name, const glm::vec4 &value) override;
 
-  void setMat4(const std::string &name, const glm::mat4 &value) override;
+  void setMat4(const char *name, const glm::mat4 &value) override;
 
 private:
   gl::GLint getUniformLocation(const std::string &name);
