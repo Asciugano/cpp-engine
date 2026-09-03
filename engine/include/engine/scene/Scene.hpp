@@ -17,6 +17,7 @@ public:
   Scene &operator=(Scene &&) noexcept = default;
 
   Entity &createEntity();
+  void addEntity(std::unique_ptr<Entity> entity);
   void destroyEntity(Entity &entity);
   void cleanScene();
 

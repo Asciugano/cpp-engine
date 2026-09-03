@@ -1,4 +1,5 @@
 #include <engine/EngineConfig.hpp>
+#include <engine/assets/AssetLoader.hpp>
 #include <engine/events/ApplicationEvent.hpp>
 #include <engine/events/Event.hpp>
 #include <engine/events/EventDispacher.hpp>
@@ -15,6 +16,7 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/vector_float3.hpp>
 #include <iostream>
+#include <memory>
 
 RallyLayer::RallyLayer(const Engine::WindowConfig &config)
     : Layer("Rally"), m_camera(45.0f,
@@ -23,49 +25,12 @@ RallyLayer::RallyLayer(const Engine::WindowConfig &config)
                                0.1f, 100.f) {}
 
 void RallyLayer::onAttach() {
-  float vertices[] = {
-      // Front
-      -0.5f, -0.5f, 0.5f, // 0
-      0.5f, -0.5f, 0.5f,  // 1
-      0.5f, 0.5f, 0.5f,   // 2
-      -0.5f, 0.5f, 0.5f,  // 3
+  auto entity = Engine::AssetLoader::load(
+      "assets/models/cube.cba", "assets/shaders/basic.vert",
+      "assets/shaders/basic.frag", glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
 
-      // Back
-      -0.5f, -0.5f, -0.5f, // 4
-      0.5f, -0.5f, -0.5f,  // 5
-      0.5f, 0.5f, -0.5f,   // 6
-      -0.5f, 0.5f, -0.5f   // 7
-  };
-
-  uint32_t indices[] = {// Front
-                        0, 1, 2, 2, 3, 0,
-
-                        // Back
-                        5, 4, 7, 7, 6, 5,
-
-                        // Left
-                        4, 0, 3, 3, 7, 4,
-
-                        // Right
-                        1, 5, 6, 6, 2, 1,
-
-                        // Top
-                        3, 2, 6, 6, 7, 3,
-
-                        // Bottom
-                        4, 5, 1, 1, 0, 4};
-
-  auto &car = m_scene.createEntity();
-  m_car = &car;
-  car.setMesh(Engine::Mesh::create(
-      vertices, sizeof(vertices), indices, std::size(indices),
-      {{Engine::ShaderDataType::Float3, "a_Position"}}));
-
-  car.setMaterial(std::make_unique<Engine::Material>(
-      Engine::Shader::create("assets/shaders/basic.vert",
-                             "assets/shaders/basic.frag"),
-      glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)));
-
+  m_car = entity.get();
+  m_scene.addEntity(std::move(entity));
   m_initialized = true;
 }
 
