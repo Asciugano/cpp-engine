@@ -25,6 +25,21 @@ void Renderer::setClearColor(float r, float g, float b, float a) {
   RenderComand::setClearColor(r, g, b, a);
 }
 
+void Renderer::draw(Entity &entity, const Camera &camera) {
+  if (!entity.isRendendable())
+    return;
+
+  entity.getMaterial()->setUniform<glm::vec4>("u_Color",
+                                              entity.getMaterial()->getColor());
+  entity.getMaterial()->setUniform<glm::mat4>(
+      "u_Model", entity.getTransform().getMatrix());
+  entity.getMaterial()->setUniform<glm::mat4>("u_View", camera.getViewMatrix());
+  entity.getMaterial()->setUniform<glm::mat4>("u_Projection",
+                                              camera.getProjectionMatrix());
+
+  RenderComand::drawIndexed(entity.getMesh()->getVertexArray(),
+                            entity.getMaterial()->getShader());
+}
 void Renderer::draw(const Mesh &mesh, Material &material,
                     const Transform &transform, const Camera &camera) {
 
