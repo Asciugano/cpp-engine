@@ -18,6 +18,7 @@ public:
 
   Entity &createEntity();
   void destroyEntity(Entity &entity);
+  void cleanScene();
 
   std::vector<std::unique_ptr<Entity>> &getEntities();
   const std::vector<std::unique_ptr<Entity>> &getEntities() const;

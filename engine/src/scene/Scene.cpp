@@ -33,4 +33,10 @@ std::vector<std::unique_ptr<Entity>> &Scene::getEntities() {
 const std::vector<std::unique_ptr<Entity>> &Scene::getEntities() const {
   return m_entities;
 }
+
+void Scene::cleanScene() {
+  for (auto &entity : m_entities) {
+    destroyEntity(*entity);
+  }
+}
 } // namespace Engine

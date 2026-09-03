@@ -69,10 +69,13 @@ void RallyLayer::onAttach() {
   m_initialized = true;
 }
 
-void RallyLayer::onDetach() { std::cout << "RallyLayer Detached" << std::endl; }
+void RallyLayer::onDetach() {
+  std::cout << "RallyLayer Detached" << std::endl;
+  m_scene.cleanScene();
+}
 
 void RallyLayer::onUpdate(float dt) {
-  m_car->getTransform().rotate(glm::vec3(15.0f * dt, 90.f * dt, 0.0f));
+  m_car->getTransform().rotate(glm::vec3(15.0f * dt, 90.f * dt, 15.0f * dt));
 }
 
 void RallyLayer::onEvent(Engine::Event &event) {
