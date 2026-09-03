@@ -25,16 +25,16 @@ public:
   static std::unique_ptr<Shader> create(const std::string &vertexPath,
                                         const std::string &fragmentPath);
 
-  virtual void setInt(const std::string &name, int value) = 0;
+  virtual void setInt(const char *name, int value) = 0;
 
-  virtual void setFloat(const std::string &name, float value) = 0;
+  virtual void setFloat(const char *name, float value) = 0;
 
-  virtual void setVec2(const std::string &name, const glm::vec2 &value) = 0;
+  virtual void setVec2(const char *name, const glm::vec2 &value) = 0;
 
-  virtual void setVec3(const std::string &name, const glm::vec3 &value) = 0;
+  virtual void setVec3(const char *name, const glm::vec3 &value) = 0;
 
-  virtual void setVec4(const std::string &name, const glm::vec4 &value) = 0;
+  virtual void setVec4(const char *name, const glm::vec4 &value) = 0;
 
-  virtual void setMat4(const std::string &name, const glm::mat4 &value) = 0;
+  virtual void setMat4(const char *name, const glm::mat4 &value) = 0;
 };
 } // namespace Engine

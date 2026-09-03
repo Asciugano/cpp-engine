@@ -31,7 +31,7 @@ void OpenGLShader::bind() const { gl::glUseProgram(m_rendererID); }
 
 void OpenGLShader::unbind() const { gl::glUseProgram(0); }
 
-void OpenGLShader::setInt(const std::string &name, int value) {
+void OpenGLShader::setInt(const char *name, int value) {
   const gl::GLint location = getUniformLocation(name);
 
   if (location == -1) {
@@ -41,7 +41,7 @@ void OpenGLShader::setInt(const std::string &name, int value) {
   gl::glUniform1i(location, value);
 }
 
-void OpenGLShader::setFloat(const std::string &name, float value) {
+void OpenGLShader::setFloat(const char *name, float value) {
   const gl::GLint location = getUniformLocation(name);
 
   if (location == -1) {
@@ -51,7 +51,7 @@ void OpenGLShader::setFloat(const std::string &name, float value) {
   gl::glUniform1f(location, value);
 }
 
-void OpenGLShader::setVec2(const std::string &name, const glm::vec2 &value) {
+void OpenGLShader::setVec2(const char *name, const glm::vec2 &value) {
   const gl::GLint location = getUniformLocation(name);
 
   if (location == -1) {
@@ -61,7 +61,7 @@ void OpenGLShader::setVec2(const std::string &name, const glm::vec2 &value) {
   gl::glUniform2fv(location, 1, glm::value_ptr(value));
 }
 
-void OpenGLShader::setVec3(const std::string &name, const glm::vec3 &value) {
+void OpenGLShader::setVec3(const char *name, const glm::vec3 &value) {
   const gl::GLint location = getUniformLocation(name);
 
   if (location == -1) {
@@ -71,7 +71,7 @@ void OpenGLShader::setVec3(const std::string &name, const glm::vec3 &value) {
   gl::glUniform3fv(location, 1, glm::value_ptr(value));
 }
 
-void OpenGLShader::setVec4(const std::string &name, const glm::vec4 &value) {
+void OpenGLShader::setVec4(const char *name, const glm::vec4 &value) {
   const gl::GLint location = getUniformLocation(name);
 
   if (location == -1) {
@@ -81,7 +81,7 @@ void OpenGLShader::setVec4(const std::string &name, const glm::vec4 &value) {
   gl::glUniform4fv(location, 1, glm::value_ptr(value));
 }
 
-void OpenGLShader::setMat4(const std::string &name, const glm::mat4 &value) {
+void OpenGLShader::setMat4(const char *name, const glm::mat4 &value) {
   const gl::GLint location = getUniformLocation(name);
 
   if (location == -1) {
