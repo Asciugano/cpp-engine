@@ -13,6 +13,10 @@ Entity &Scene::createEntity() {
   return reference;
 }
 
+void Scene::addEntity(std::unique_ptr<Entity> entity) {
+  m_entities.push_back(std::move(entity));
+}
+
 void Scene::destroyEntity(Entity &entity) {
   const auto it =
       std::find_if(m_entities.begin(), m_entities.end(),
