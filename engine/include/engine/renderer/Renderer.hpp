@@ -5,6 +5,7 @@
 #include <engine/renderer/Mesh.hpp>
 #include <engine/scene/Camera.hpp>
 #include <engine/scene/Entity.hpp>
+#include <engine/scene/Scene.hpp>
 #include <engine/scene/Transform.hpp>
 
 namespace Engine {
@@ -20,6 +21,7 @@ public:
 
   static void setClearColor(float r, float g, float b, float a);
 
+  static void draw(Scene &scene, const Camera &camera);
   static void draw(Entity &entity, const Camera &camera);
   static void draw(const Mesh &mesh, Material &material,
                    const Transform &transform, const Camera &camera);

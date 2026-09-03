@@ -55,6 +55,8 @@ void RallyLayer::onAttach() {
                         // Bottom
                         4, 5, 1, 1, 0, 4};
 
+  auto &car = m_scene.createEntity();
+  m_car = &car;
   car.setMesh(Engine::Mesh::create(
       vertices, sizeof(vertices), indices, std::size(indices),
       {{Engine::ShaderDataType::Float3, "a_Position"}}));
@@ -70,7 +72,7 @@ void RallyLayer::onAttach() {
 void RallyLayer::onDetach() { std::cout << "RallyLayer Detached" << std::endl; }
 
 void RallyLayer::onUpdate(float dt) {
-  car.getTransform().rotate(glm::vec3(0.0f, 90.f * dt, 0.0f));
+  m_car->getTransform().rotate(glm::vec3(15.0f * dt, 90.f * dt, 0.0f));
 }
 
 void RallyLayer::onEvent(Engine::Event &event) {
@@ -97,5 +99,5 @@ void RallyLayer::onRender() {
     onAttach();
   }
 
-  Engine::Renderer::draw(car, m_camera);
+  Engine::Renderer::draw(m_scene, m_camera);
 }

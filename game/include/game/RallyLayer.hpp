@@ -9,6 +9,7 @@
 #include <engine/renderer/VertexArray.hpp>
 #include <engine/scene/Camera.hpp>
 #include <engine/scene/Entity.hpp>
+#include <engine/scene/Scene.hpp>
 #include <engine/scene/Transform.hpp>
 
 class RallyLayer : public Engine::Layer {
@@ -24,7 +25,8 @@ public:
   void onRender() override;
 
 private:
-  Engine::Entity car;
+  Engine::Entity *m_car{nullptr};
+  Engine::Scene m_scene;
   Engine::Camera m_camera;
 
   bool m_initialized = false;
