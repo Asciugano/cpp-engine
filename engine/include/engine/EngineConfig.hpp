@@ -12,7 +12,9 @@ struct WindowConfig {
 
   bool fullscreen = false;
   bool resizable = true;
-  bool vsinc = true;
+  bool vsync = true;
+
+  GraphicsAPI api = GraphicsAPI::OpenGL;
 };
 
 struct RendererConfig {
