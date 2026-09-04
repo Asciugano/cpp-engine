@@ -27,3 +27,7 @@ CPMAddPackage(
         "OPTION_BUILD_TESTS OFF"
         "OPTION_BUILD_TOOLS OFF"
 )
+
+CPMAddPackage(
+    "gh:catchorg/Catch2@3.8.1"
+)
