@@ -1,17 +1,11 @@
 #pragma once
 
+#include <GraphicsAPI.hpp>
 #include <engine/renderer/Shader.hpp>
 #include <engine/renderer/VertexArray.hpp>
 #include <memory>
 
 namespace Engine {
-enum class GraphicsAPI {
-  None = 0,
-  OpenGL,
-  Vulkan,
-  Metal,
-};
-
 class RendererAPI {
 public:
   virtual ~RendererAPI() = default;

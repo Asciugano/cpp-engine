@@ -1,19 +1,23 @@
 #pragma once
 
-#include <cstdint>
 #include <engine/EngineConfig.hpp>
 #include <engine/events/Event.hpp>
+
 #include <functional>
 
 struct GLFWwindow;
 
 namespace Engine {
-using EventCallbackFn = std::function<void(Event &)>;
 
 class Window {
 public:
-  Window(unsigned int width, unsigned int height, const char *title);
-  Window(const WindowConfig &config);
+  using EventCallbackFn = std::function<void(Event &)>;
+
+  explicit Window(const WindowConfig &config);
+
+  Window(unsigned int width, unsigned int height, const char *title,
+         const GraphicsAPI *api = nullptr);
+
   ~Window();
 
   Window(const Window &) = delete;
@@ -22,27 +26,31 @@ public:
   Window(Window &&) = delete;
   Window &operator=(Window &&) = delete;
 
-  void onUpdate();
+  void setEventCallback(const EventCallbackFn &callback);
 
-  bool shoudClose() const;
+  bool shouldClose() const;
+
   void pollEvents() const;
+
   void swapBuffers() const;
+
   GLFWwindow *native() const;
 
   uint32_t width() const;
   uint32_t height() const;
 
-  void setEventCallback(const EventCallbackFn &callback);
-
 private:
   void init();
 
-  GLFWwindow *m_window{};
+private:
+  GLFWwindow *m_window = nullptr;
 
-  uint32_t m_width;
-  uint32_t m_height;
+  unsigned int m_width = 0;
+  unsigned int m_height = 0;
 
-  const char *m_title;
+  const char *m_title = nullptr;
+
+  GraphicsAPI m_graphycsAPI = GraphicsAPI::OpenGL;
 
   EventCallbackFn m_eventCallback;
 };

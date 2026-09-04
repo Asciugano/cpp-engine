@@ -7,10 +7,10 @@
 #include <GLFW/glfw3.h>
 #include <engine/Application.hpp>
 #include <engine/Time.hpp>
-#include <engine/Window.hpp>
 #include <engine/inputs/Input.hpp>
 #include <engine/inputs/KeyCodes.hpp>
 #include <engine/renderer/Renderer.hpp>
+#include <engine/window/Window.hpp>
 #include <glbinding/gl/gl.h>
 #include <glbinding/glbinding.h>
 #include <iostream>
@@ -40,7 +40,7 @@ void Application::run() {
   while (m_running) {
     Time::update();
 
-    if (m_window->shoudClose()) {
+    if (m_window->shouldClose()) {
       m_running = false;
     }
 
