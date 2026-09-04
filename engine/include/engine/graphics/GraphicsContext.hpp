@@ -1,5 +1,7 @@
 #pragma once
 
+#include <engine/EngineConfig.hpp>
+
 struct GLFWwindow;
 
 namespace Engine {
@@ -7,7 +9,7 @@ class GraphicsContext {
 public:
   explicit GraphicsContext(GLFWwindow *window);
 
-  void init();
+  void init(const WindowConfig &config);
   void swapBuffers() const;
 
 private:

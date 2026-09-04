@@ -8,14 +8,6 @@
 
 namespace Engine {
 
-Window::Window(unsigned int width, unsigned int height, const char *title,
-               const GraphicsAPI *api)
-    : m_width(width), m_height(height), m_title(title),
-      m_graphycsAPI(api != nullptr ? *api : GraphicsAPI::OpenGL) {
-
-  WindowCommand::init(m_graphycsAPI);
-}
-
 Window::Window(const WindowConfig &config)
     : m_width(config.width), m_height(config.height), m_title(config.title) {
 

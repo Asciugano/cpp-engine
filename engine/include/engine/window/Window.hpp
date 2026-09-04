@@ -15,9 +15,6 @@ public:
 
   explicit Window(const WindowConfig &config);
 
-  Window(unsigned int width, unsigned int height, const char *title,
-         const GraphicsAPI *api = nullptr);
-
   ~Window();
 
   Window(const Window &) = delete;
@@ -50,7 +47,7 @@ private:
 
   const char *m_title = nullptr;
 
-  GraphicsAPI m_graphycsAPI = GraphicsAPI::OpenGL;
+  GraphicsAPI m_graphycsAPI;
 
   EventCallbackFn m_eventCallback;
 };
