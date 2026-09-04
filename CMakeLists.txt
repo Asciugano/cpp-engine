@@ -33,4 +33,7 @@ add_custom_target(copy_assets ALL
 
 add_subdirectory(engine)
 add_subdirectory(game)
+
+enable_testing()
+add_subdirectory(tests)
 # add_subdirectory(sandbox)
