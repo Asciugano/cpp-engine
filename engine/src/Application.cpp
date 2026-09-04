@@ -25,7 +25,7 @@ Application::Application(const EngineConfig &config) : m_config(config) {
 
   m_context = std::make_unique<GraphicsContext>(m_window->native());
 
-  m_context->init();
+  m_context->init(config.window);
 
   Renderer::init(config.renderer);
   Renderer::setClearColor(0.15f, 0.18f, 0.22f, 1);
