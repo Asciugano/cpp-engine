@@ -14,7 +14,11 @@ compile:
 
 test:
 	cmake --build $(BUILD_DIR)
-	ctest --test-dir $(BUILD_DIR) --output-on-failure -j
+	@if [ -n "$(FILTER)" ]; then \
+		ctest --test-dir $(BUILD_DIR) -R "$(FILTER)" -j --output-on-failure; \
+	else \
+		ctest --test-dir $(BUILD_DIR) -j --output-on-failure; \
+	fi
 
 run:
 	cmake --build $(BUILD_DIR)
