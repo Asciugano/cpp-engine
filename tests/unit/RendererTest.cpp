@@ -1,19 +1,27 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include <engine/EngineConfig.hpp>
-#include <engine/renderer/Renderer.hpp>
 #include <engine/renderer/RendererAPI.hpp>
 
 #include <memory>
 #include <stdexcept>
 
-TEST_CASE("RendererAPI selects OpenGL backend", "[RendererAPI]") {
+class RendererAPIFixture {
+  Engine::GraphicsAPI prev;
+
+public:
+  RendererAPIFixture() : prev(Engine::RendererAPI::currentAPI()) {}
+  ~RendererAPIFixture() { Engine::RendererAPI::setGraphicsAPIs(prev); }
+};
+
+TEST_CASE_METHOD(RendererAPIFixture, "RendererAPI selects OpenGL backend",
+                 "[RendererAPI]") {
   Engine::RendererAPI::setGraphicsAPIs(Engine::GraphicsAPI::OpenGL);
 
   REQUIRE(Engine::RendererAPI::currentAPI() == Engine::GraphicsAPI::OpenGL);
 }
 
-TEST_CASE("RendererAPI changes graphics API", "[Renderer]") {
+TEST_CASE_METHOD(RendererAPIFixture, "RendererAPI changes graphics API",
+                 "[Renderer]") {
   Engine::RendererAPI::setGraphicsAPIs(Engine::GraphicsAPI::OpenGL);
 
   REQUIRE(Engine::RendererAPI::currentAPI() == Engine::GraphicsAPI::OpenGL);
@@ -27,7 +35,8 @@ TEST_CASE("RendererAPI changes graphics API", "[Renderer]") {
   REQUIRE(Engine::RendererAPI::currentAPI() == Engine::GraphicsAPI::Metal);
 }
 
-TEST_CASE("RendererAPI creates OpenGL backend", "[RendererAPI]") {
+TEST_CASE_METHOD(RendererAPIFixture, "RendererAPI creates OpenGL backend",
+                 "[RendererAPI]") {
   Engine::RendererAPI::setGraphicsAPIs(Engine::GraphicsAPI::OpenGL);
 
   std::unique_ptr<Engine::RendererAPI> rendererAPI;
@@ -37,13 +46,17 @@ TEST_CASE("RendererAPI creates OpenGL backend", "[RendererAPI]") {
   REQUIRE(rendererAPI != nullptr);
 }
 
-TEST_CASE("RendererAPI rejects unsupported Vulkan backend", "[RendererAPI]") {
+TEST_CASE_METHOD(RendererAPIFixture,
+                 "RendererAPI rejects unsupported Vulkan backend",
+                 "[RendererAPI]") {
   Engine::RendererAPI::setGraphicsAPIs(Engine::GraphicsAPI::Vulkan);
 
   REQUIRE_THROWS_AS(Engine::RendererAPI::create(), std::runtime_error);
 }
 
-TEST_CASE("RendererAPI rejects unsupported Metal backend", "[RendererAPI]") {
+TEST_CASE_METHOD(RendererAPIFixture,
+                 "RendererAPI rejects unsupported Metal backend",
+                 "[RendererAPI]") {
   Engine::RendererAPI::setGraphicsAPIs(Engine::GraphicsAPI::Metal);
 
   REQUIRE_THROWS_AS(Engine::RendererAPI::create(), std::runtime_error);

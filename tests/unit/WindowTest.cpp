@@ -1,12 +1,16 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include <engine/EngineConfig.hpp>
 #include <engine/window/Window.hpp>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
-TEST_CASE("Window creates successfully", "[Window]") {
+struct WindowFixture {
+  WindowFixture() { glfwInit(); }
+  ~WindowFixture() { glfwTerminate(); }
+};
+
+TEST_CASE_METHOD(WindowFixture, "Window creates successfully", "[Window]") {
   Engine::WindowConfig config;
 
   config.title = "Window Test";
@@ -19,7 +23,7 @@ TEST_CASE("Window creates successfully", "[Window]") {
   REQUIRE(window.native() != nullptr);
 }
 
-TEST_CASE("Window has correct dimensions", "[Window]") {
+TEST_CASE_METHOD(WindowFixture, "Window has correct dimensions", "[Window]") {
   Engine::WindowConfig config;
 
   config.title = "Window Size Test";
@@ -33,7 +37,8 @@ TEST_CASE("Window has correct dimensions", "[Window]") {
   REQUIRE(window.height() == 720);
 }
 
-TEST_CASE("Window is not initially marked for closing", "[Window]") {
+TEST_CASE_METHOD(WindowFixture, "Window is not initially marked for closing",
+                 "[Window]") {
   Engine::WindowConfig config;
 
   config.title = "Window Close Test";
@@ -46,7 +51,8 @@ TEST_CASE("Window is not initially marked for closing", "[Window]") {
   REQUIRE_FALSE(window.shouldClose());
 }
 
-TEST_CASE("Window can be marked for closing", "[Window]") {
+TEST_CASE_METHOD(WindowFixture, "Window can be marked for closing",
+                 "[Window]") {
   Engine::WindowConfig config;
 
   config.title = "Window Close Test";
@@ -63,7 +69,7 @@ TEST_CASE("Window can be marked for closing", "[Window]") {
   REQUIRE(window.shouldClose());
 }
 
-TEST_CASE("Window processes events", "[Window]") {
+TEST_CASE_METHOD(WindowFixture, "Window processes events", "[Window]") {
   Engine::WindowConfig config;
 
   config.title = "Window Events Test";
